@@ -9,6 +9,8 @@ const gameBoard = (function(){
 })();
 
 
+
+
 // Create a player
 function playerFactory(name, symbol){
     const playerObj = {
@@ -18,6 +20,8 @@ function playerFactory(name, symbol){
 
     return playerObj;
 }
+
+
 
 
 // Create gameplay
@@ -33,10 +37,17 @@ function playerFactory(name, symbol){
 
     // If win or all squares filled, then game over
 
+    let playAgain = false;
 
     // Outer game loop
     do{
-        let playerTurn = player1;
+        playAgain = false;
+        let gameOver = false;
+
+        // Clear game board
+        for(i=0; i<gameBoard.gameBoardArr.length; i++){
+            gameBoard.gameBoardArr[i] = "";
+        }
 
         // Get player names
         let player1Name = prompt("Player 1 will use X. Enter the name of Player 1:");
@@ -45,13 +56,17 @@ function playerFactory(name, symbol){
         let player1 = playerFactory(player1Name, 'X');
         let player2 = playerFactory(player2Name, 'O');
 
+        let playerTurn = player1;
+
         do{
             // Get player's move
             let playerMove = parseInt(prompt((`${playerTurn.name}, which square do you want to select? (1-9)`)));
             gameBoard.gameBoardArr[playerMove-1] = playerTurn.symbol;
 
             // Switch players for next turn
-            if(!isGameTied() && !isGameWon){
+            if(isGameTied() || isGameWon()){
+                gameOver = true;
+            }else{
                 if(playerTurn == player1){
                     playerTurn = player2;
                 }else{
@@ -59,15 +74,25 @@ function playerFactory(name, symbol){
                 }
             }
 
-        }while(!isGameTied() && !isGameWon());
+        }while(!gameOver);
 
         if(isGameTied()){
             console.log("Tie game!");
         }else if(isGameWon()){
-            console.log(`${playerTurn} wins!`);
+            console.log(`${playerTurn.name} wins!`);
         }
 
-    }while (!playAgain);
+        let playAgainChar = prompt("Would you like to play again? (y/n)")
+        if(playAgainChar == "y"){
+            playAgain = true;
+        }else{
+            playAgain = false;
+        }
+
+
+    }while (playAgain);
+
+
 
 
     // Check for winner
@@ -77,7 +102,7 @@ function playerFactory(name, symbol){
         // Check each row of three
         for(i=0; i<=6; i+=3)
         {
-            if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == theArray[i+1] && theArray[i+1] == theArray[i+2])
+            if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+1] && gameBoard.gameBoardArr[i+1] == gameBoard.gameBoardArr[i+2])
             {
                 gameWon = true;
             }
@@ -86,14 +111,14 @@ function playerFactory(name, symbol){
         // Check each column of six
         for(i=0; i<3; i++)
         {
-            if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == theArray[i+3] && theArray[i+3] == theArray[i+6])
+            if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+3] && gameBoard.gameBoardArr[i+3] == gameBoard.gameBoardArr[i+6])
             {
                 gameWon = true;
             }
         }
         
         // Check the diagonals
-        if((theArray[0] != "" && theArray[0] == theArray[4] && theArray[4] == theArray[8]) || (theArray[2] != "" && theArray[2] == theArray[4] && theArray[4] == theArray[6]))
+        if((gameBoard.gameBoardArr[0] != "" && gameBoard.gameBoardArr[0] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[8]) || (gameBoard.gameBoardArr[2] != "" && gameBoard.gameBoardArr[2] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[6]))
         {
             gameWon = true;
         }
@@ -121,14 +146,3 @@ function playerFactory(name, symbol){
 
 })();
 
-// [][][]
-// [][][]
-// [][][]
-// 123
-// 456
-// 789
-// 159
-// 357
-// 147
-// 258
-// 369
