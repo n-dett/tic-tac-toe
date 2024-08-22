@@ -1,0 +1,22 @@
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#board-container {
+    border: 1px solid black;
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.squares {
+    font-size: 6em;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
