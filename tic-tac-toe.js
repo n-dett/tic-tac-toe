@@ -141,8 +141,10 @@ function playerFactory(name, symbol){
     // Change color of square on hover
     const boardSquares = document.querySelectorAll('.squares');
     boardSquares.forEach(square => {
-        square.addEventListener('mouseover', changeColor)
-        square.addEventListener('mouseout', resetColor)
+        if(square.innerHTML == ""){
+            square.addEventListener('mouseover', changeColor)
+            square.addEventListener('mouseout', resetColor)
+        }
     })
 
     function changeColor(){
@@ -152,7 +154,6 @@ function playerFactory(name, symbol){
     }
 
     function resetColor(){
-        //if gray
         this.style.backgroundColor = '#0f0f0f';
     }
 
