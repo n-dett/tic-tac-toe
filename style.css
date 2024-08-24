@@ -67,3 +67,14 @@ input {
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 1254px){
+    body{
+        flex-wrap: wrap;
+    }
+
+    #sidebar{
+        width: 100%;
+        height: auto;
+    }
+}
