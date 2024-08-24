@@ -1,21 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+:root {
+    --yellow-green: rgb(221, 221, 55);
+  }
 
 body{
+    background-color: rgb(15, 15, 15);
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+}
+
+#sidebar {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    background-color: var(--yellow-green);
+    width: 30%;
+    height: 100vh;
+    padding: 0 3em;
+}
+
+h1 {
+    font-size: 4em;
+    text-align: left;
+}
+
+.players {
+    margin-bottom: 2em;
+}
+
+label {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+input {
+    font-size: 1.5em;
+    width: 15em;
+    margin-top: .25em;
 }
 
 #board-container {
-    border: 1px solid black;
-    width: 500px;
-    height: 500px;
+    width: 70%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#board {
+    border: 1px solid var(--yellow-green);
+    width: 575px;
+    height: 575px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
 .squares {
+    color: var(--yellow-green);
     font-size: 6em;
-    border: 1px solid black;
+    font-weight: 600;
+    border: 1px solid var(--yellow-green);
     display: flex;
     align-items: center;
     justify-content: center;
