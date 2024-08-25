@@ -10,7 +10,6 @@ body{
     display: flex;
     align-items: center;
     font-family: 'Inter', Arial, Helvetica, sans-serif;
-
 }
 
 #sidebar {
@@ -23,24 +22,30 @@ body{
 }
 
 h1 {
-    font-size: 4em;
+    font-size: 3.5em;
     text-align: left;
 }
 
 .players {
     margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+
 }
 
 label {
     font-size: 1.5em;
     font-weight: 600;
+    padding-right: 0;
 }
 
 input {
     font-size: 1.5em;
-    width: 15em;
     margin-top: .25em;
+    width: 75%;
 }
+
+
 
 #board-container {
     width: 70%;
@@ -68,13 +73,34 @@ input {
     justify-content: center;
 }
 
-@media (max-width: 1254px){
+
+
+@media (max-width: 1024px){
     body{
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     #sidebar{
+        justify-content: center;
+        align-items: center;
         width: 100%;
         height: auto;
     }
+
+    #players-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #player-one {
+        margin-right: 2em;
+    }
+
+    input {
+        width: 100%;
+    }
+    
+
 }
