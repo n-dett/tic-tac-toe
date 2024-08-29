@@ -150,7 +150,7 @@ function playerFactory(name, symbol){
     function changeColor(){
         //if(empty)
         console.log("hovered");
-        this.style.backgroundColor = '#404040'
+        this.style.backgroundColor = '#ffffff'
     }
 
     function resetColor(){

@@ -2,7 +2,7 @@
 
 
 :root {
-    --yellow-green: rgb(221, 221, 55);
+    --secondary-color: rgb(112, 172, 255);
   }
 
 body{
@@ -15,14 +15,14 @@ body{
 #sidebar {
     display: flex;
     flex-direction: column;
-    background-color: var(--yellow-green);
+    background-color: var(--secondary-color);
     width: 30%;
     height: 100vh;
     padding: 0 3em;
 }
 
 h1 {
-    font-size: 3.5em;
+    font-size: min(58px, 9vw);
     text-align: left;
 }
 
@@ -49,28 +49,30 @@ input {
 
 #board-container {
     width: 70%;
-    height: 100vh;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 #board {
-    border: 1px solid var(--yellow-green);
-    width: 575px;
-    height: 575px;
+    width: 70%;
+    max-width: 545px;
+    border: 1px solid var(--secondary-color);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
 .squares {
-    color: var(--yellow-green);
-    font-size: 6em;
+    color: var(--secondary-color);
+    font-size: clamp(80px, 10vw, 120px);
     font-weight: 600;
-    border: 1px solid var(--yellow-green);
+    border: 1px solid var(--secondary-color);
     display: flex;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 1 / 1;
 }
 
 
@@ -88,6 +90,10 @@ input {
         height: auto;
     }
 
+    h1 {
+        margin-top: 1rem;
+    }
+
     #players-container {
         display: flex;
         justify-content: center;
@@ -101,6 +107,13 @@ input {
     input {
         width: 100%;
     }
-    
 
+    #board-container {
+        margin-top: 4%;
+    }
+
+    #board {
+        width: 100%;
+        min-width: 400px;
+    }
 }
