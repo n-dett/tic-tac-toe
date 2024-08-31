@@ -9,7 +9,18 @@ const gameBoard = (function(){
 })();
 
 
+// Track game state
+const gameState = (function() {
+    let started = false;
+    return {
+        get isStarted() {return started},
+        startGame: function() {started = true},
+        endGame: function() {started = false}
+    }
+})();
 
+
+///////// Change to access player1 and player2
 // Create a player
 function playerFactory(name, symbol){
     const playerObj = {
@@ -22,7 +33,7 @@ function playerFactory(name, symbol){
 
 
 
-// // Create gameplay
+// // // Create gameplay
 // (function gameplayFactory(){
 //     let playAgain = false;
 
@@ -141,21 +152,61 @@ function playerFactory(name, symbol){
     // Change color of square on hover
     const boardSquares = document.querySelectorAll('.squares');
     boardSquares.forEach(square => {
-        if(square.innerHTML == ""){
-            square.addEventListener('mouseover', changeColor)
-            square.addEventListener('mouseout', resetColor)
-        }
+        // && if game is started
+        square.addEventListener('mouseover', changeColor)
+        square.addEventListener('mouseout', resetColor)
+
     })
 
     function changeColor(){
         //if(empty)
         console.log("hovered");
-        this.style.backgroundColor = '#ffffff'
+        if(this.innerHTML == "" && gameState.isStarted) {
+            this.style.backgroundColor = '#ffffff'
+        }
     }
 
     function resetColor(){
-        this.style.backgroundColor = '#0f0f0f';
+        if(this.innerHTML == "" && gameState.isStarted) {
+            this.style.backgroundColor = '#0f0f0f';
+        }
     }
 
+    // Button
+    // On click
+        // gameStarted = true;
+        // innerText = "<Player 1>'s turn"
 
+    const sidebar = document.querySelector('#sidebar');
+
+    // Start the game on button click
+    const startBtn = document.querySelector('#start-btn');
+    startBtn.addEventListener('click', () => {
+        gameState.startGame();
+        startBtn.style.display = 'none';
+
+        // Create game text paragraph
+        const gameText = document.createElement('p');
+        gameText.id = "game-text";
+        gameText.textContent = "Player 1's turn";
+        sidebar.appendChild(gameText);
+    }
+    );
+    
+
+
+
+
+    // Squares
+    // On click
+        // If game is started
+        // If box is ""
+            // If turn = playerOne, then innerText = X, symbol = X
+            // Else, innerText = O, symbol = O
+        // index = this.value;
+        // array[index] = symbol;
+        // innerText = "<Player 2>'s turn"
+
+
+    // Display text for game won or tied
 })()
