@@ -21,16 +21,23 @@ const gameState = (function() {
 
 
 ///////// Change to access player1 and player2
-// Create a player
-function playerFactory(name, symbol){
+// Create a player factory
+function playerFactory(playerNum, symbol){
+    const nameInput = document.querySelector(`#player-${playerNum}-name`);
     const playerObj = {
-        name: name,
+        name: nameInput.value,
         symbol: symbol
     }
 
     return playerObj;
 }
 
+
+// Create players
+const players = {
+    player1: playerFactory(1, 'X'),
+    player2: playerFactory(2, 'O')
+}
 
 
 // // // Create gameplay
@@ -47,14 +54,6 @@ function playerFactory(name, symbol){
 //             gameBoard.gameBoardArr[i] = "";
 //         }
 
-//         // Get player names
-//         // let player1Name = prompt("Player 1 will use X. Enter the name of Player 1:");
-//         // let player2Name = prompt("Player 2 will use O. Enter the name of Player 2:");
-//         let player1Name = "temp";
-//         let player2Name = "temp2";
-
-//         let player1 = playerFactory(player1Name, 'X');
-//         let player2 = playerFactory(player2Name, 'O');
 
 //         let playerTurn = player1;
 
@@ -67,10 +66,10 @@ function playerFactory(name, symbol){
 //             if(isGameTied() || isGameWon()){
 //                 gameOver = true;
 //             }else{
-//                 if(playerTurn == player1){
-//                     playerTurn = player2;
+//                 if(playerTurn == players.player1){
+//                     playerTurn = players.player2;
 //                 }else{
-//                     playerTurn = player1;
+//                     playerTurn = players.player1;
 //                 }
 //             }
 
