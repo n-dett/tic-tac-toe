@@ -9,23 +9,20 @@ const gameBoard = (function(){
 })();
 
 
-// Track game state
-const gameState = (function() {
-    let started = false;
-    return {
-        get isStarted() {return started},
-        startGame: function() {started = true},
-        endGame: function() {started = false}
-    }
-})();
 
 
-///////// Change to access player1 and player2
+
+
 // Create a player factory
 function playerFactory(playerNum, symbol){
     const nameInput = document.querySelector(`#player-${playerNum}-name`);
     const playerObj = {
-        name: nameInput.value,
+        get name() {
+            if(nameInput.value == ""){
+                return `Player ${playerNum}`
+            }
+            return nameInput.value;
+        },
         symbol: symbol
     }
 
@@ -40,7 +37,23 @@ const players = {
 }
 
 
-// // // Create gameplay
+// Track game state
+const gameState = (function() {
+    let started = false;
+    let playerTurn = players.player1;
+    return {
+        get isStarted() {return started},
+        startGame: function() {started = true},
+        endGame: function() {started = false},
+        get whoseTurn() {return playerTurn},
+        player1Turn: function() {playerTurn = players.player1},
+        player2Turn: function() {playerTurn = players.player2}
+    }
+})();
+
+
+
+// // Create gameplay
 // (function gameplayFactory(){
 //     let playAgain = false;
 
@@ -55,7 +68,6 @@ const players = {
 //         }
 
 
-//         let playerTurn = player1;
 
 //         do{
 //             // Get player's move
@@ -66,10 +78,10 @@ const players = {
 //             if(isGameTied() || isGameWon()){
 //                 gameOver = true;
 //             }else{
-//                 if(playerTurn == players.player1){
-//                     playerTurn = players.player2;
+//                 if(gameState.whoseTurn() == players.player1){
+//                     gameState.playerTurn2Turn();
 //                 }else{
-//                     playerTurn = players.player1;
+//                     gameState.player1Turn();
 //                 }
 //             }
 
@@ -158,7 +170,6 @@ const players = {
     })
 
     function changeColor(){
-        //if(empty)
         console.log("hovered");
         if(this.innerHTML == "" && gameState.isStarted) {
             this.style.backgroundColor = '#ffffff'
@@ -171,14 +182,10 @@ const players = {
         }
     }
 
-    // Button
-    // On click
-        // gameStarted = true;
-        // innerText = "<Player 1>'s turn"
 
-    const sidebar = document.querySelector('#sidebar');
 
     // Start the game on button click
+    const sidebar = document.querySelector('#sidebar');
     const startBtn = document.querySelector('#start-btn');
     startBtn.addEventListener('click', () => {
         gameState.startGame();
@@ -187,13 +194,11 @@ const players = {
         // Create game text paragraph
         const gameText = document.createElement('p');
         gameText.id = "game-text";
-        gameText.textContent = "Player 1's turn";
+        gameText.textContent = `${gameState.whoseTurn.name}'s turn`;
         sidebar.appendChild(gameText);
     }
     );
     
-
-
 
 
     // Squares
@@ -205,6 +210,24 @@ const players = {
         // index = this.value;
         // array[index] = symbol;
         // innerText = "<Player 2>'s turn"
+
+    // Add X or O when empty square is clicked
+    boardSquares.forEach(square => {
+        // && if game is started
+        square.addEventListener('click', displaySymbol)
+    })
+
+
+    function displaySymbol() {
+        if(this.innerHTML == "" && gameState.isStarted){
+            this.innerHTML = gameState.whoseTurn.symbol;
+            if(gameState.whoseTurn == players.player1){
+                gameState.player2Turn();
+            } else {
+                gameState.player1Turn();
+            }
+        }
+    }
 
 
     // Display text for game won or tied
