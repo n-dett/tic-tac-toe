@@ -16,6 +16,7 @@ p {
     font-size: 2rem;
 }
 
+
 #sidebar {
     display: flex;
     flex-direction: column;
@@ -142,6 +143,8 @@ button:hover {
         min-width: 400px;
     }
 }
+
+
 
 @media (max-width: 768px){
 

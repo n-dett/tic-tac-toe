@@ -185,17 +185,17 @@ const gameState = (function() {
 
 
     // Start the game on button click
-    const sidebar = document.querySelector('#sidebar');
+    const gameText = document.querySelector('#game-text');
     const startBtn = document.querySelector('#start-btn');
     startBtn.addEventListener('click', () => {
         gameState.startGame();
         startBtn.style.display = 'none';
 
         // Create game text paragraph
-        const gameText = document.createElement('p');
-        gameText.id = "game-text";
-        gameText.textContent = `${gameState.whoseTurn.name}'s turn`;
-        sidebar.appendChild(gameText);
+        const playerTurnText = document.createElement('p');
+        playerTurnText.id = "turn-text";
+        playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
+        gameText.appendChild(playerTurnText);
     }
     );
     
@@ -221,11 +221,16 @@ const gameState = (function() {
     function displaySymbol() {
         if(this.innerHTML == "" && gameState.isStarted){
             this.innerHTML = gameState.whoseTurn.symbol;
+            this.style.backgroundColor = '#000000'
+
             if(gameState.whoseTurn == players.player1){
                 gameState.player2Turn();
             } else {
                 gameState.player1Turn();
             }
+
+            const playerTurnText = document.querySelector('#turn-text')
+            playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
         }
     }
 
