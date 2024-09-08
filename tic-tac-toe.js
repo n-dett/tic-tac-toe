@@ -4,12 +4,8 @@ const gameBoard = (function(){
         gameBoardArr: 
             ['', '', '', '', '', '','', '', '']
     }
-
     return gameBoardObj;
 })();
-
-
-
 
 
 
@@ -47,193 +43,133 @@ const gameState = (function() {
         endGame: function() {started = false},
         get whoseTurn() {return playerTurn},
         player1Turn: function() {playerTurn = players.player1},
-        player2Turn: function() {playerTurn = players.player2}
+        player2Turn: function() {playerTurn = players.player2},
+        gameWon: function() {
+            let gameWon = false;
+
+            // Check each row of three
+            for(i=0; i<=6; i+=3)
+            {
+                if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+1] && gameBoard.gameBoardArr[i+1] == gameBoard.gameBoardArr[i+2]){
+                    gameWon = true;
+                }
+            }
+        
+            // Check each column of six
+            for(i=0; i<3; i++)
+            {
+                if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+3] && gameBoard.gameBoardArr[i+3] == gameBoard.gameBoardArr[i+6]){
+                    gameWon = true;
+                }
+            }
+            
+            // Check the diagonals
+            if((gameBoard.gameBoardArr[0] != "" && gameBoard.gameBoardArr[0] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[8]) || (gameBoard.gameBoardArr[2] != "" && gameBoard.gameBoardArr[2] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[6])){
+                gameWon = true;
+            }
+        
+            return gameWon;
+        },
+
+        gameTied: function() {
+            let gameWon = false;
+
+            // Check each row of three
+            for(i=0; i<=6; i+=3){
+                if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+1] && gameBoard.gameBoardArr[i+1] == gameBoard.gameBoardArr[i+2]){
+                    gameWon = true;
+                }
+            }
+        
+            // Check each column of six
+            for(i=0; i<3; i++){
+                if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+3] && gameBoard.gameBoardArr[i+3] == gameBoard.gameBoardArr[i+6]){
+                    gameWon = true;
+                }
+            }
+            
+            // Check the diagonals
+            if((gameBoard.gameBoardArr[0] != "" && gameBoard.gameBoardArr[0] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[8]) || (gameBoard.gameBoardArr[2] != "" && gameBoard.gameBoardArr[2] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[6])){
+                gameWon = true;
+            }
+
+            return gameWon;
+            }
+
     }
 })();
 
 
 
-// // Create gameplay
-// (function gameplayFactory(){
-//     let playAgain = false;
-
-//     // Outer game loop
-//     do{
-//         playAgain = false;
-//         let gameOver = false;
-
-//         // Clear game board
-//         for(i=0; i<gameBoard.gameBoardArr.length; i++){
-//             gameBoard.gameBoardArr[i] = "";
-//         }
-
-
-
-//         do{
-//             // Get player's move
-//             // let playerMove = parseInt(prompt((`${playerTurn.name}, which square do you want to select? (1-9)`)));
-//             gameBoard.gameBoardArr[playerMove-1] = playerTurn.symbol;
-
-//             // Switch players for next turn
-//             if(isGameTied() || isGameWon()){
-//                 gameOver = true;
-//             }else{
-//                 if(gameState.whoseTurn() == players.player1){
-//                     gameState.playerTurn2Turn();
-//                 }else{
-//                     gameState.player1Turn();
-//                 }
-//             }
-
-//         }while(!gameOver);
-
-//         if(isGameTied()){
-//             console.log("Tie game!");
-//         }else if(isGameWon()){
-//             console.log(`${playerTurn.name} wins!`);
-//         }
-
-//         // let playAgainChar = prompt("Would you like to play again? (y/n)")
-//         if(playAgainChar == "y"){
-//             playAgain = true;
-//         }else{
-//             playAgain = false;
-//         }
-
-
-//     }while (playAgain);
-
-
-
-
-//     // Check for winner
-//     function isGameWon(){
-//         let gameWon = false;
-
-//         // Check each row of three
-//         for(i=0; i<=6; i+=3)
-//         {
-//             if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+1] && gameBoard.gameBoardArr[i+1] == gameBoard.gameBoardArr[i+2])
-//             {
-//                 gameWon = true;
-//             }
-//         }
-    
-//         // Check each column of six
-//         for(i=0; i<3; i++)
-//         {
-//             if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+3] && gameBoard.gameBoardArr[i+3] == gameBoard.gameBoardArr[i+6])
-//             {
-//                 gameWon = true;
-//             }
-//         }
-        
-//         // Check the diagonals
-//         if((gameBoard.gameBoardArr[0] != "" && gameBoard.gameBoardArr[0] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[8]) || (gameBoard.gameBoardArr[2] != "" && gameBoard.gameBoardArr[2] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[6]))
-//         {
-//             gameWon = true;
-//         }
-    
-//         return gameWon;
-//     }
-
-//     // Check for a tie
-//     function isGameTied(){
-//         let filled = true;
-//         for(i=0; i<gameBoard.gameBoardArr.length; i++){
-//             if(gameBoard.gameBoardArr[i] == ''){
-//                 filled = false;
-//             }
-//         }
-
-//         if(filled){
-//             console.log("It's a tie!");
-//             return true;
-//         }else{
-//             return false;
-//         }
-
-//     }
-
-// })();
-
 
 // Update display
-(function displayFactory(){
-    // Change color of square on hover
-    const boardSquares = document.querySelectorAll('.squares');
-    boardSquares.forEach(square => {
-        // && if game is started
-        square.addEventListener('mouseover', changeColor)
-        square.addEventListener('mouseout', resetColor)
+const updateUI = (function(){
+    return {
+        // Change color of square on hover
+        hoverColor: function(){
+            const boardSquares = document.querySelectorAll('.squares');
+            boardSquares.forEach(square => {
+                // && if game is started
+                square.addEventListener('mouseover', changeColor)
+                square.addEventListener('mouseout', resetColor)
+            })
+        },
 
-    })
-
-    function changeColor(){
-        console.log("hovered");
-        if(this.innerHTML == "" && gameState.isStarted) {
-            this.style.backgroundColor = '#ffffff'
-        }
-    }
-
-    function resetColor(){
-        if(this.innerHTML == "" && gameState.isStarted) {
-            this.style.backgroundColor = '#0f0f0f';
-        }
-    }
-
-
-
-    // Start the game on button click
-    const gameText = document.querySelector('#game-text');
-    const startBtn = document.querySelector('#start-btn');
-    startBtn.addEventListener('click', () => {
-        gameState.startGame();
-        startBtn.style.display = 'none';
-
-        // Create game text paragraph
-        const playerTurnText = document.createElement('p');
-        playerTurnText.id = "turn-text";
-        playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
-        gameText.appendChild(playerTurnText);
-    }
-    );
-    
-
-
-    // Squares
-    // On click
-        // If game is started
-        // If box is ""
-            // If turn = playerOne, then innerText = X, symbol = X
-            // Else, innerText = O, symbol = O
-        // index = this.value;
-        // array[index] = symbol;
-        // innerText = "<Player 2>'s turn"
-
-    // Add X or O when empty square is clicked
-    boardSquares.forEach(square => {
-        // && if game is started
-        square.addEventListener('click', displaySymbol)
-    })
-
-
-    function displaySymbol() {
-        if(this.innerHTML == "" && gameState.isStarted){
-            this.innerHTML = gameState.whoseTurn.symbol;
-            this.style.backgroundColor = '#000000'
-
-            if(gameState.whoseTurn == players.player1){
-                gameState.player2Turn();
-            } else {
-                gameState.player1Turn();
+        changeColor: function(){
+            console.log("hovered");
+            if(this.innerHTML == "" && gameState.isStarted) {
+                this.style.backgroundColor = '#ffffff'
             }
+        },
 
+        resetColor: function(){
+            if(this.innerHTML == "" && gameState.isStarted) {
+                this.style.backgroundColor = '#0f0f0f';
+            }
+        },
+
+        // Start the game on button click
+        clickStart: function(){            
+            const gameText = document.querySelector('#game-text');
+            const startBtn = document.querySelector('#start-btn');
+            startBtn.addEventListener('click', () => {
+                gameState.startGame();
+                startBtn.style.display = 'none';
+
+                // Create game text paragraph
+                const playerTurnText = document.createElement('p');
+                playerTurnText.id = "turn-text";
+                playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
+                gameText.appendChild(playerTurnText);
+            })
+        },
+
+        // Add X or O when empty square is clicked
+        displaySymbol: function(){
+            boardSquares.forEach(square => {
+                // && if game is started
+                square.addEventListener('click', () => {
+                    if(this.innerHTML == "" && gameState.isStarted){
+                        this.innerText = gameState.whoseTurn.symbol;
+                        this.style.backgroundColor = '#000000'
+                    }
+                })
+            })
+        },
+
+        displayText: function(text){
             const playerTurnText = document.querySelector('#turn-text')
-            playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
+            playerTurnText.textContent = text;
+            // playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
         }
     }
+})();
 
 
-    // Display text for game won or tied
-})()
+
+
+// Create game flow
+(function(){
+
+
+})();
