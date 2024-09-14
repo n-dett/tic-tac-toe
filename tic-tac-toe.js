@@ -1,8 +1,12 @@
-// Create the game board
+// Create the game board array
 const gameBoard = (function(){
+    const boardSquares = document.querySelectorAll('.squares');
     const gameBoardObj = {
         gameBoardArr: 
-            ['', '', '', '', '', '','', '', '']
+            ['', '', '', '', '', '','', '', ''],
+        updateArr: function(index, symbol) {
+            this.gameBoardArr[index] = symbol;
+        }
     }
     return gameBoardObj;
 })();
@@ -26,11 +30,13 @@ function playerFactory(playerNum, symbol){
 }
 
 
+
 // Create players
 const players = {
     player1: playerFactory(1, 'X'),
     player2: playerFactory(2, 'O')
 }
+
 
 
 // Track game state
@@ -101,31 +107,31 @@ const gameState = (function() {
 
 
 
-
 // Update display
 const updateUI = (function(){
+    const boardSquares = document.querySelectorAll('.squares');
+
+    function changeColor(){
+        console.log("hovered");
+        if(this.innerHTML == "" && gameState.isStarted) {
+            this.style.backgroundColor = '#ffffff'
+        }
+    }
+
+    function resetColor(){
+        if(this.innerHTML == "" && gameState.isStarted) {
+            this.style.backgroundColor = '#0f0f0f';
+        }
+    }
+
     return {
         // Change color of square on hover
         hoverColor: function(){
-            const boardSquares = document.querySelectorAll('.squares');
             boardSquares.forEach(square => {
                 // && if game is started
                 square.addEventListener('mouseover', changeColor)
                 square.addEventListener('mouseout', resetColor)
             })
-        },
-
-        changeColor: function(){
-            console.log("hovered");
-            if(this.innerHTML == "" && gameState.isStarted) {
-                this.style.backgroundColor = '#ffffff'
-            }
-        },
-
-        resetColor: function(){
-            if(this.innerHTML == "" && gameState.isStarted) {
-                this.style.backgroundColor = '#0f0f0f';
-            }
         },
 
         // Start the game on button click
@@ -145,17 +151,11 @@ const updateUI = (function(){
         },
 
         // Add X or O when empty square is clicked
-        displaySymbol: function(){
-            boardSquares.forEach(square => {
-                // && if game is started
-                square.addEventListener('click', () => {
-                    if(this.innerHTML == "" && gameState.isStarted){
-                        this.innerText = gameState.whoseTurn.symbol;
-                        this.style.backgroundColor = '#000000'
-                    }
-                })
-            })
+        displaySymbol: function(square, symbol){
+            square.innerText = symbol;
+            square.style.backgroundColor = '#000000'
         },
+
 
         displayText: function(text){
             const playerTurnText = document.querySelector('#turn-text')
@@ -170,6 +170,36 @@ const updateUI = (function(){
 
 // Create game flow
 (function(){
+    const boardSquares = document.querySelectorAll('.squares');
+
+    // Start the game on button click
+    updateUI.clickStart();
+
+    // Change color on hover
+    updateUI.hoverColor();
+
+
+    // Game flow
+    boardSquares.forEach(square => {
+        square.addEventListener('click', () => {
+            if(square.innerHTML == "" && gameState.isStarted){
+                let squareIndex = square.dataset.square;
+
+                // Update the array on click
+                let i = square.dataset.square;
+                gameBoard.updateArr(squareIndex, gameState.whoseTurn.symbol);
+
+                // Display symbol on click
+                updateUI.displaySymbol(square, gameState.whoseTurn.symbol);
+
+
+                // Check for winner or tie (update text)
+                // Switch turns (update text)
+                // Repeat
+
+            }
+        })
+    })
 
 
 })();
