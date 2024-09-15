@@ -78,28 +78,22 @@ const gameState = (function() {
         },
 
         gameTied: function() {
-            let gameWon = false;
+            let gameTied = false;
+            let emptySquare = false;
 
-            // Check each row of three
-            for(i=0; i<=6; i+=3){
-                if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+1] && gameBoard.gameBoardArr[i+1] == gameBoard.gameBoardArr[i+2]){
-                    gameWon = true;
+            // Check if every square is filled
+            for(i=0; i<=9; i++){
+                if(gameBoard.gameBoardArr[i] == ""){
+                    emptySquare = true;
                 }
             }
-        
-            // Check each column of six
-            for(i=0; i<3; i++){
-                if(gameBoard.gameBoardArr[i] != "" && gameBoard.gameBoardArr[i] == gameBoard.gameBoardArr[i+3] && gameBoard.gameBoardArr[i+3] == gameBoard.gameBoardArr[i+6]){
-                    gameWon = true;
-                }
-            }
-            
-            // Check the diagonals
-            if((gameBoard.gameBoardArr[0] != "" && gameBoard.gameBoardArr[0] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[8]) || (gameBoard.gameBoardArr[2] != "" && gameBoard.gameBoardArr[2] == gameBoard.gameBoardArr[4] && gameBoard.gameBoardArr[4] == gameBoard.gameBoardArr[6])){
-                gameWon = true;
+
+            // If board is filled and game is not won
+            if(!emptySquare && !this.gameWon()) {
+                gameTied = true;
             }
 
-            return gameWon;
+            return gameTied;
         },
         resetGame: function() {
             // Reset array
@@ -120,7 +114,6 @@ const updateUI = (function(){
     const boardSquares = document.querySelectorAll('.squares');
 
     function changeColor(){
-        console.log("hovered");
         if(this.innerHTML == "" && gameState.isStarted) {
             this.style.backgroundColor = '#ffffff'
         }
@@ -158,7 +151,8 @@ const updateUI = (function(){
                 const playerTurnText = document.createElement('p');
                 playerTurnText.id = "turn-text";
                 playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
-                gameText.appendChild(playerTurnText);
+                gameText.insertBefore(playerTurnText, gameText.firstChild);
+                // gameText.appendChild(playerTurnText);
             })
         },
 
