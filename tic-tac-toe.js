@@ -100,7 +100,15 @@ const gameState = (function() {
             }
 
             return gameWon;
-            }
+        },
+        resetGame: function() {
+            // Reset array
+            gameBoard.gameBoardArr = ['', '', '', '', '', '','', '', ''];
+
+            // Set turn to player 1
+            this.player1Turn();
+            
+        }
 
     }
 })();
@@ -128,7 +136,6 @@ const updateUI = (function(){
         // Change color of square on hover
         hoverColor: function(){
             boardSquares.forEach(square => {
-                // && if game is started
                 square.addEventListener('mouseover', changeColor)
                 square.addEventListener('mouseout', resetColor)
             })
@@ -139,6 +146,11 @@ const updateUI = (function(){
             const gameText = document.querySelector('#game-text');
             const startBtn = document.querySelector('#start-btn');
             startBtn.addEventListener('click', () => {
+                // Reset the game
+                updateUI.resetUI();
+                gameState.resetGame();
+
+                // Hide the button
                 gameState.startGame();
                 startBtn.style.display = 'none';
 
@@ -160,7 +172,26 @@ const updateUI = (function(){
         displayText: function(text){
             const playerTurnText = document.querySelector('#turn-text')
             playerTurnText.textContent = text;
-            // playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
+        },
+
+        resetUI: function(){
+            // Remove text
+            const playerTurnText = document.querySelector('#turn-text')
+            if(playerTurnText) {
+                playerTurnText.remove();
+            }
+
+            // Clear board
+            boardSquares.forEach(square => {
+                square.textContent = "";
+            })
+        },
+
+        newGameButton: function(){
+            // Show button
+            const startBtn = document.querySelector('#start-btn');
+            startBtn.style.display = 'block';
+            startBtn.textContent = "NEW GAME";
         }
     }
 })();
@@ -183,19 +214,34 @@ const updateUI = (function(){
     boardSquares.forEach(square => {
         square.addEventListener('click', () => {
             if(square.innerHTML == "" && gameState.isStarted){
-                let squareIndex = square.dataset.square;
-
                 // Update the array on click
-                let i = square.dataset.square;
+                let squareIndex = square.dataset.square;
                 gameBoard.updateArr(squareIndex, gameState.whoseTurn.symbol);
 
                 // Display symbol on click
                 updateUI.displaySymbol(square, gameState.whoseTurn.symbol);
 
+                // Check for winner or tie and update text
+                if(gameState.gameWon()) {
+                    updateUI.displayText(`${gameState.whoseTurn.name} won!`)
+                    gameState.endGame();
+                    updateUI.newGameButton();
 
-                // Check for winner or tie (update text)
-                // Switch turns (update text)
-                // Repeat
+                } else if (gameState.gameTied()) {
+                    updateUI.displayText("Tie game!")
+                    gameState.endGame();
+                    updateUI.newGameButton();
+
+                } else {
+                    // Switch turns
+                    if(gameState.whoseTurn == players.player1) {
+                        gameState.player2Turn();
+                    } else {
+                        gameState.player1Turn();
+                    }
+
+                    updateUI.displayText(`${gameState.whoseTurn.name}'s turn`)
+                }
 
             }
         })

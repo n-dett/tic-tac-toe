@@ -81,14 +81,15 @@ input {
 }
 
 button {
-    width: 8rem;
+    width: fit-content;
     font-size: 24px;
     font-weight: 600;
     background-color: rgb(0, 0, 0);
     border: 1px solid black;
-    padding: .5rem;
+    padding: .75rem;
     color: white;
     transition: 0.3s;
+    margin-bottom: 0;
 }
 
 button:hover {
@@ -141,6 +142,17 @@ button:hover {
     #board {
         width: 100%;
         min-width: 400px;
+    }
+
+    #game-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #turn-text {
+        margin-top: 0;
     }
 }
 
