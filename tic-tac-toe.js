@@ -152,7 +152,6 @@ const updateUI = (function(){
                 playerTurnText.id = "turn-text";
                 playerTurnText.textContent = `${gameState.whoseTurn.name}'s turn`;
                 gameText.insertBefore(playerTurnText, gameText.firstChild);
-                // gameText.appendChild(playerTurnText);
             })
         },
 
