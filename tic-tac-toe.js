@@ -125,12 +125,27 @@ const updateUI = (function(){
         }
     }
 
+    // Detect if the device is a touch device
+    function isTouchDevice() {
+        return ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    }
+
     return {
         // Change color of square on hover
         hoverColor: function(){
+            if(!isTouchDevice()){
+                boardSquares.forEach(square => {
+                    square.addEventListener('mouseover', changeColor)
+                    square.addEventListener('mouseout', resetColor)
+                })
+            }
+        },
+
+        // Remove hover color
+        removeHoverColor: function(){
             boardSquares.forEach(square => {
-                square.addEventListener('mouseover', changeColor)
-                square.addEventListener('mouseout', resetColor)
+                square.removeEventListener('mouseover', changeColor)
+                square.removeEventListener('mouseout', resetColor)
             })
         },
 
